@@ -3,6 +3,13 @@ import { addProperties, addPropToSet, removeProperties } from "./properties";
 
 // Remember to rename these classes and interfaces!
 
+
+export interface NewPropDataNumber {
+	type: string;
+	data: number;
+	overwrite: boolean;
+}
+
 export interface NewPropData {
 	type: string;
 	data: string | string[];
@@ -29,7 +36,18 @@ export default class todoProgress extends Plugin {
 			id: "add-progress-tracking",
 			name: "Add progress tracking to this note",
 			callback: () => {
-				console.log("Progress tracking added") //TODO:add actuall tracking
+				const activeFile = this.app.workspace.getActiveFile();
+				if (activeFile) {
+					const propData: NewPropDataNumber = {
+						type: 'number',
+						data: 0,
+						overwrite: true,
+					}
+					addProperties(this.app, activeFile, new Map([['TP-percent', propData]]), false);
+				} else {
+					console.log("No active file to add properties to.");
+				}
+				console.log("Progress tracking added")
 			}
 		})
 
@@ -39,12 +57,12 @@ export default class todoProgress extends Plugin {
 			callback: () => {
 				const activeFile = this.app.workspace.getActiveFile();
 				if (activeFile) {
-					const propData: NewPropData = {
-						type: 'string',
-						data: 'testData',
-						overwrite: false,
+					const propData: NewPropDataNumber = {
+						type: 'number',
+						data: 0,
+						overwrite: true,
 					}
-					addProperties(this.app, activeFile, new Map([['tags', propData]]), false);
+					addProperties(this.app, activeFile, new Map([['TP-percent', propData]]), false);
 				} else {
 					console.log("No active file to add properties to.");
 				}

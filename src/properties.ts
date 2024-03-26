@@ -25,7 +25,7 @@ export function addProperties(
 			if (!canBeAppended(type1, type2)) {
 				frontmatter[key] = value.data;
 				continue;
-			} else {
+			} else { //TODO: Check this, i can remove the ! and flip
 				let arr = mergeIntoArrays(frontmatter[key], value.data);
 				frontmatter[key] = arr;
 				continue;
